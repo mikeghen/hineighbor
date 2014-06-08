@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0; background: #009999; }
+      #map-canvas { height: 100%; }
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN7KgorALPbM7uSG8qsX6PLHHnqq2G9ws">
+    </script>
+    <script type="text/javascript">
+      function initialize() {
+         
+        var mapOptions = {
+          center: new google.maps.LatLng(42.376774, -71.099842),
+          zoom: 14
+        };
+
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+        // Set up an InfoWindow for Harvard, Kendall and Porter
+        infowindow = new google.maps.InfoWindow; //static infoWindow for all markers
+        
+
+        
+        // Lat and Lng Data for Bostong Globe Porter Locations
+        var bg1pLatLng = new google.maps.LatLng(42.3975928, -71.1295968);
+        var bg2pLatLng = new google.maps.LatLng(42.3865968, -71.1200000);
+        var bg3pLatLng = new google.maps.LatLng(42.3984318, -71.119755);
+        var bg4pLatLng = new google.maps.LatLng(42.3894348, -71.1100000);
+        var bg5pLatLng = new google.maps.LatLng(42.3974368, -71.119755);
+                
+        // Lat and Lng Data for Bostong Globe Harvard Locations
+        var bg1hLatLng = new google.maps.LatLng(42.3736158, -71.1111111);
+        var bg2hLatLng = new google.maps.LatLng(42.3736158, -71.1200000);
+        var bg3hLatLng = new google.maps.LatLng(42.3796158, -71.1199335);
+        var bg4hLatLng = new google.maps.LatLng(42.3720000, -71.1255000);
+        var bg5hLatLng = new google.maps.LatLng(42.3786158, -71.1143543);
+        
+        // Lat and Lng Data for Bostong Globe Kendall Locations
+        var bg1kLatLng = new google.maps.LatLng(42.3636158, -71.0987632);
+        var bg2kLatLng = new google.maps.LatLng(42.3726158, -71.0909999);
+        var bg3kLatLng = new google.maps.LatLng(42.3692158, -71.0899322);
+        var bg4kLatLng = new google.maps.LatLng(42.3626158, -71.0843499);
+        var bg5kLatLng = new google.maps.LatLng(42.3606158, -71.0912321);
+
+        // Harvard Lat and Lng Data for Instagram
+        {% for data in harvard_grams_data %}
+        var harvardInstaLatLng{{data.number}} = new google.maps.LatLng({{data.lat}},{{data.lng}});
+        var harvardInstaContentString{{data.number}} = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"{{data.link}}\"></a>'+
+        '</div>';
+         var harvardInstaMarker{{data.number}} = new google.maps.Marker({
+            icon:('http://maps.google.com/mapfiles/kml/pal4/icon46.png'),
+            position: harvardInstaLatLng{{data.number}},
+            map: map,
+            title: 'Harvard Square'
+        }); 
+         google.maps.event.addListener(harvardInstaMarker{{data.number}}, 'click', function() {
+            infowindow.setContent(harvardInstaContentString{{data.number}});
+            infowindow.open(map,harvardInstaMarker{{data.number}});
+        });
+        {% endfor %}
+        // Porter Lat and Lng Data for Instagram
+        {% for data in porter_grams_data %}
+        var porterInstaLatLng{{data.number}} = new google.maps.LatLng({{data.lat}},{{data.lng}});
+        var porterInstaContentString{{data.number}} = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"{{data.link}}\"></a>'+
+        '</div>';
+        var porterInstaMarker{{data.number}} = new google.maps.Marker({
+            icon:('http://maps.google.com/mapfiles/kml/pal4/icon46.png'),
+            position: porterInstaLatLng{{data.number}},
+            map: map,
+            title: 'Porter Square'
+        });  
+        google.maps.event.addListener(porterInstaMarker{{data.number}}, 'click', function() {
+            infowindow.setContent(porterInstaContentString{{data.number}});
+            infowindow.open(map,porterInstaMarker{{data.number}});
+        });
+        {% endfor %}
+        // Kendall Lat and Lng Data for Instagram
+        {% for data in kendall_grams_data %}
+        var kendallInstaLatLng{{data.number}} = new google.maps.LatLng({{data.lat}},{{data.lng}});
+        var kendallInstaContentString{{data.number}} = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"{{data.link}}\"></a>'+
+        '</div>';
+        var kendallInstaMarker{{data.number}} = new google.maps.Marker({
+            icon:('http://maps.google.com/mapfiles/kml/pal4/icon46.png'),
+            position: kendallInstaLatLng{{data.number}},
+            map: map,
+            title: 'Kendall Square'
+        }); 
+        google.maps.event.addListener(kendallInstaMarker{{data.number}}, 'click', function() {
+            infowindow.setContent(kendallInstaContentString{{data.number}});
+            infowindow.open(map,kendallInstaMarker{{data.number}});
+        });
+        {% endfor %}
+
+        
+
+        
+        // Content Strings for InfoWindows
+
+          
+        // Boston Globe Porter Content Strings for InfoWindows
+        var bg1pContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/metro/2014/05/20/after-use-yah-blinkah-cambridge-warns-bike-riders-wicked-smaaht/C3PUzskhXhn2aXkXSLDrmK/story.html\">Cambridge warns bike riders to ‘Be Wicked Smaaht’</a>'+
+        '</div>';
+        
+        var bg2pContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/lifestyle/food-dining/2014/05/13/pan-asian-comfort-foods-curry-ramen-and-more-mart-cambridge/b9OXE6b9hDErTKDO1t5NlK/story.html\">Pan-Asian comfort foods and more at H Mart</a>'+
+        '</div>';
+        
+        var bg3pContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/arts/books/2013/12/21/new-england-literary-news/5LM5KjFmxSfm6uV7h2FvQK/story.html\">Tribute to the independent spirit</a>'+
+        '</div>';
+        
+        var bg4pContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/magazine/2014/05/08/will-green-line-extension-make-somerville-real-estate-crazy/wjqGz7SeXtht5CdtsQTYHK/story.html\">Will the Green Line Extension make Somerville real estate go crazy?</a>'+
+        '</div>';
+        
+        var bg5pContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/metro/obituaries/2014/05/14/jack-curtin-north-cambridge-latecomer-running-became-mainstay-road-racing-circuit/rhIFOj00hJc59WTg5gLwHO/story.html\">Jack Curtin, 82, of Cambridge; mainstay of road races</a>'+
+        '</div>';
+ 
+       // Boston Globe Harvard Content Strings for InfoWindows
+        var bg1hContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/sports/2014/06/07/steve-ballmer-has-managed-quite-well-since-graduation/vnK2KdKG1oNfuHiSkj3faP/story.html\">Steve Ballmer has managed quite well since graduation</a>'+
+        '</div>';
+        
+        var bg2hContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/lifestyle/food-dining/2014/06/07/tables/1YrFhQit54dCd9XTfsnVbN/story.html\">Cathedral Station opening, Taco Truck’s brick-and-mortar, and more</a>'+
+        '</div>';
+        
+        var bg3hContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/arts/2014/06/06/boston-area-list/ZKbvUlATVdpTwZz3av6uXI/story.html\">Boston-area to do list</a>'+
+        '</div>';
+        
+        var bg4hContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/arts/music/2014/06/05/gay-hip-hop-artist-cakes-killa-opens-boston-pride-oberon/Hjakl4YfojngwxswYbZNaJ/story.html\">Gay hip-hop artist Cakes Da Killa opens Boston Pride</a>'+
+        '</div>';
+        
+        var bg5hContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/lifestyle/food-dining/2014/06/03/soup-dumplings-cambridge-are-outpost-popular-chinatown-spot/pC1wo76u4GhzqXtlXBE6dI/story.html\">Dumpling House comes to Cambridge</a>'+
+        '</div>';
+        
+        // Boston Globe Kendall Content Strings for InfoWindows
+        var bg1kContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/sports/2014/06/04/new-bedford-upsets-wellesley-div-south-baseball-semifinals/79GYWR259eraWK5xXXWZeN/story.html\">Roundup: New Bedford upsets No. 1 Wellesley in baseball</a>'+
+        '</div>';
+        
+        var bg2kContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/arts/movies/2014/06/05/words-pictures-and-banter-for-grown-ups/RCFvlzM3tV63uqMybNoODL/story.html\">‘Words and Pictures,’ and banter for grown-ups</a>'+
+        '</div>';
+        
+        var bg3kContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/magazine/2014/06/06/great-boston-bars-for-world-cup-fans/FKW0Frk5v2Hgg87DPqU3KI/story.html\">8 great Boston bars for World Cup fans</a>'+
+        '</div>';
+        
+        var bg4kContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/metro/2014/06/07/back-bay-expansion-joint-gets-fix-after-one-year-painful-crashes/3l9fDOgoU5dYFrQXInJ8ZJ/story.html\">For many bicyclists, repairs came too late</a>'+
+        '</div>';
+        
+        var bg5kContentString = '<div id="content" style="width:400px; height:500px;">'+
+        '<a id="embedly-link" class=\"embedly-card\" href=\"http://www.bostonglobe.com/news/nation/2014/06/07/mit-used-lobbying-influence-restore-nuclear-fusion-dream-after-white-house-sought-stop-funding/T5Q9esYqbZsxIbXUpnEHFN/story.html\">MIT at center of political power play</a>'+
+        '</div>';
+
+         
+        
+        // Boston Globe Porter Markers
+        var bg1pMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg1pLatLng,
+            map: map,
+            title: 'BG Porter Headline 1'
+        });
+        var bg2pMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg2pLatLng,
+            map: map,
+            title: 'BG Porter Headline 2'
+        });
+        var bg3pMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg3pLatLng,
+            map: map,
+            title: 'BBG Porter Headline 3'
+        });
+        var bg4pMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg4pLatLng,
+            map: map,
+            title: 'BG Porter Headline 4'
+        });
+        var bg5pMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg5pLatLng,
+            map: map,
+            title: 'BG Porter Headline 5'
+        });
+        
+         // Boston Globe Harvard Markers
+        var bg1hMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg1hLatLng,
+            map: map,
+            title: 'BG Harvard Headline 1'
+        });
+        var bg2hMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg2hLatLng,
+            map: map,
+            title: 'BG Harvard Headline 2'
+        });
+        var bg3hMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg3hLatLng,
+            map: map,
+            title: 'BG Harvard Headline 3'
+        });
+        var bg4hMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg4hLatLng,
+            map: map,
+            title: 'BG Harvard Headline 4'
+        });
+        var bg5hMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg5hLatLng,
+            map: map,
+            title: 'BG Harvard Headline 5'
+        });
+         
+        // Boston Globe Kendall Markers
+        var bg1kMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg1kLatLng,
+            map: map,
+            title: 'BG Kendall Headline 1'
+        });
+        var bg2kMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg2kLatLng,
+            map: map,
+            title: 'BG Kendall Headline 2'
+        });
+        var bg3kMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg3kLatLng,
+            map: map,
+            title: 'BG Kendall Headline 3'
+        });
+        var bg4kMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg4kLatLng,
+            map: map,
+            title: 'BG Kendall Headline 4'
+        });
+        var bg5kMarker = new google.maps.Marker({
+            icon: ('http://maps.google.com/mapfiles/kml/pal2/icon31.png'),
+            position: bg5kLatLng,
+            map: map,
+            title: 'BG Kendall Headline 5'
+        });
+
+
+        
+        // Add the event listeners to inforwindow
+        google.maps.event.addListener(infowindow, 'domready', function () {
+            console.log('domready fired');
+            var embedlyLink = document.getElementById('embedly-link');
+            embedly.card(embedlyLink);
+            
+        });
+        // Boston Globe Porter Markers
+        google.maps.event.addListener(bg1pMarker, 'click', function() {
+            infowindow.setContent(bg1pContentString);
+            infowindow.open(map,bg1pMarker);
+
+        });
+        google.maps.event.addListener(bg2pMarker, 'click', function() {
+            infowindow.setContent(bg2pContentString);
+            infowindow.open(map,bg2pMarker);
+        });
+        google.maps.event.addListener(bg3pMarker, 'click', function() {
+            infowindow.setContent(bg3pContentString);
+            infowindow.open(map,bg3pMarker);
+        });
+        google.maps.event.addListener(bg4pMarker, 'click', function() {
+            infowindow.setContent(bg4pContentString);
+            infowindow.open(map,bg4pMarker);
+        });
+        google.maps.event.addListener(bg5pMarker, 'click', function() {
+            infowindow.setContent(bg5pContentString);
+            infowindow.open(map,bg5pMarker);
+        });
+        
+        // Boston Globe Harvard Markers
+        google.maps.event.addListener(bg1hMarker, 'click', function() {
+            infowindow.setContent(bg1hContentString);
+            infowindow.open(map,bg1hMarker);
+        });
+        google.maps.event.addListener(bg2hMarker, 'click', function() {
+            infowindow.setContent(bg2hContentString);
+            infowindow.open(map,bg2hMarker);
+        });
+        google.maps.event.addListener(bg3hMarker, 'click', function() {
+            infowindow.setContent(bg3hContentString);
+            infowindow.open(map,bg3hMarker);
+        });
+        google.maps.event.addListener(bg4hMarker, 'click', function() {
+            infowindow.setContent(bg4hContentString);
+            infowindow.open(map,bg4hMarker);
+        });
+        google.maps.event.addListener(bg5hMarker, 'click', function() {
+            infowindow.setContent(bg5hContentString);
+            infowindow.open(map,bg5hMarker);
+        });
+        
+        // Boston Globe Kendall Markers
+        google.maps.event.addListener(bg1kMarker, 'click', function() {
+            infowindow.setContent(bg1kContentString);
+            infowindow.open(map,bg1kMarker);
+        });
+        google.maps.event.addListener(bg2kMarker, 'click', function() {
+            infowindow.setContent(bg2kContentString);
+            infowindow.open(map,bg2kMarker);
+        });
+        google.maps.event.addListener(bg3kMarker, 'click', function() {
+            infowindow.setContent(bg3kContentString);
+            infowindow.open(map,bg3kMarker);
+        });
+        google.maps.event.addListener(bg4kMarker, 'click', function() {
+            infowindow.setContent(bg4kContentString);
+            infowindow.open(map,bg4kMarker);
+        });
+        google.maps.event.addListener(bg5kMarker, 'click', function() {
+            infowindow.setContent(bg5kContentString);
+            infowindow.open(map,bg5kMarker);
+        });
+        
+      }
+      
+      
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body>
+    
+    <div id="map-canvas"/>
+    <script src="//cdn.embedly.com/widgets/platform.js"></script>
+  </body>
+</html>
