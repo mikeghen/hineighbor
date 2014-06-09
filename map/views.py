@@ -12,18 +12,16 @@ import urllib
 # FCTVAL == api, an instance of tweepy api
 def setup_twitter():
     # Authenticate with Twitter
-    auth = tweepy.OAuthHandler('Ra5KUykAvEpJG0C4oOa3YjLbk', 'qySV4XbXSSxmkf0thpDTTFNQdmgw1LFPrW4jyjsGj2xhDWY7bs')
-    auth.set_access_token('280123458-hSC1tLzB7J9pM92Bjou11C8YPXla6lymQ6IYtPjx', 'SibH6f0KgAPObE0mF8lSVEIEI9uftPIyam97YrmUkpsRu')
+    auth = tweepy.OAuthHandler('')
+    auth.set_access_token('', '')
     api = tweepy.API(auth)
     sapi = tweepy.streaming.Stream(auth, 1)
     return api, sapi
 
-# instagram_json - Get 10 peices of media for a giving lat lng
-# lat == the latitude to search near
-# lng == the longitude to search near
-# FCTVAL == j, some json data
+# setup_instagram - Authenticate with instagram 
+# FCTVAL == api, an instance of the Instagram API that has been authenticated
 def setup_instagram():
-    access_token = '620180902.e229ac7.5401c004eaab429ba89365715f71b7af'
+    access_token = ''
     api = InstagramAPI(access_token=access_token)
     return api 
 
